@@ -24,6 +24,6 @@ This is not officially supported by Think Ministry, Inc. The intent of this soft
 
 4. Save your changes to config.php.
 
-5. Visit the home page in any modern (read: HTML5 compatible) browser, ideally an iOS device. However, this app should load and function correctly in the current versions of Firefox, Chrome, and Safari if desired.
+5. Visit the home page in any modern (HTML5+) browser, ideally an iOS device. However, this app should load and function correctly in the current versions of Firefox, Chrome, and Safari if desired.
 
 6. That's it! You're all set. Test the log-in process to ensure your connection works.
