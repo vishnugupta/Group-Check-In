@@ -1,0 +1,48 @@
+a {
+	text-decoration: none;
+}
+
+div.event_title {
+	color: #2F3E46;
+}
+
+div#error_message {
+	margin: 3% 10%;
+	font-weight: bold;
+	color: #C53535;
+	text-align: center;
+}
+
+.secondary-list-content {
+	font-size: .8em;
+	color: #555;
+	margin-top: 3px;
+	/* font-weight: normal; */
+}
+
+div.total_members {
+	margin-left: 10px;
+}
+
+div.total_checked_in {
+	margin-left: 10px;
+	color: #006D0D;
+}
+
+li.checked_in {
+	background: #CDEECA none;
+}
+
+.hidden {
+	display: none;
+}
+
+div#processing {
+	position: absolute;
+	top: 10%;
+	left: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+}
