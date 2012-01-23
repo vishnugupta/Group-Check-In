@@ -8,6 +8,18 @@ This is not officially supported by Think Ministry, Inc. The intent of this soft
 1. Developed and tested against PHP version 5.3.6. (There has been at least one reported issue with PHP 5.2.17)
 2. Must be a current Think Ministry, Inc. Enterprise level customer with valid API credentials.
 
+
+
+*** PRE-INSTALLATION NOTES ***
+
+If you install PHP on IIS 7+, please take the following additional step.
+
+Open IIS Manager and go to IIS -> PHP Manager
+Locate "PHP Settings", then click "Manage All Settings"
+Locate "short_open_tag" and change the value from "Off" to "On"
+
+
+
 *** Initial Configuration ***
 
 1. Place all files from the zip package into any directory you'd like
