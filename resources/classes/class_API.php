@@ -16,25 +16,25 @@ class API {
 	public $securityRoleID; // security role ID for Group check-in
 
 	function __construct() {
-		
+
 		/*
 		 * @import config values
 		 * pulls in config values from /config/config.php. Allows for app udpates w/o overwriting these values
 		 */
-		
-		require_once('config/config.php'); 		
-		/* 
+
+		require_once('config/config.php');
+		/*
 		 * these don't change
 		 * do NOT place the @new soapClient() in the construct method or the connection will never close
 		 */
-		
+
 		$context = stream_context_create(
 						array(
 					    	'http' => array('header' => "Connection: close")
 					    	//'http' => array('header' => "apikey: this-must-still-be-here")
 					    )
 					);
-		
+
 		$this->params['trace'] = true;
 		$this->params['exceptions'] = 1;
 		$this->params['stream_context'] = $context;
@@ -75,7 +75,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$fields = array(
 					'UserName' 		=> $user,
 					'Password' 		=> $userpassword,
@@ -98,7 +98,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$sp = "api_GetUserRoles";
 		$request = "UserID=".$userID;
 
@@ -110,7 +110,7 @@ class API {
 		);
 
 		$response = $this->client->__soapCall('ExecuteStoredProcedure', array('parameters' => $params));
-		
+
 		$data = simplexml_load_string($response->ExecuteStoredProcedureResult->any);
 		$roles = $data->NewDataSet;
 		$auth = false; // defaults authorization to false
@@ -139,7 +139,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$from_date = date('m/d/Y');
 		$through_date = date('m/d/Y', strtotime('+' . $this->hours . ' hours'));
 
@@ -173,7 +173,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$requeststring = "EventID=$eventID";
 
 		$params = array(
@@ -198,7 +198,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$params = array(
 			'GUID' => $this->guid,
 			'Password' => $this->pw,
@@ -222,8 +222,8 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
-		
+
+
 		$RequestString = "Event_ID=" . $event_id; // event ID
 		$RequestString .= "&Participation_Status_ID=3"; // status = attended
 		$RequestString .= "&Participant_ID=" . $participant_id;
@@ -258,7 +258,7 @@ class API {
 		catch(SoapFault $soap_error) {
 			echo $soap_error->faultstring;
 		}
-		
+
 		$params = array(
 			'GUID'				=> $this->guid,
 			'Password'			=> $this->pw,
@@ -284,11 +284,11 @@ class API {
 	function process_events($events) {
 		$this->row .= '<!-- begin Event List -->';
 		$this->row .= '<ul data-role="listview" data-filter="true" id="events-list" class="events_list">';
-			
+
 		if( empty($events) ) {
 			$this->row .= '<li>No Events Found.';
 		}
-		
+
 		else {
 			foreach($events->Table as $event){ // retrieve events
 				$eventID = (string)$event->RecordID;
@@ -345,14 +345,14 @@ class API {
 
 		$member_list = $this->getMembers($eventID, $groupID); // gets the member list for each group
 		$group_details = $this->get_leader_data($member_list); // gets counts of # of attendees, checked-in, leaders, etc.
-		
+
 		if( $group_details['total'] > 0 ) {
 			$this->row .= '<li id="'.$groupID.'"><div>'.$groupDescription.'</div>';
 			$this->row .= '<div class="secondary-list-content">';
 			$this->row .= '<div class="total_members">Leaders: '.$group_details['leaders'].' | Attendees: '.$group_details['participants'].'</div>';
 			$this->row .= '<div class="total_checked_in">Leaders: <span id="'.$eventID.'_'.$groupID.'_leaders">'.$group_details['leaders_checked_in'].'</span> | Attendees: <span id="'.$eventID.'_'.$groupID.'_attendees">'.$group_details['participants_checked_in'].'</span></div>';
 			$this->row .= '</div>';
-	
+
 				$this->row .= '<ul data-role="listview" data-filter="true" class="members_list">';
 					foreach($member_list->Table as $member) {
 						$this->process_members($member, $eventID);
@@ -376,6 +376,26 @@ class API {
 		$roleTitle = (string)$member->Role_Title;
 		$groupRoleType = (string)$member->Group_Role_Type;
 		$time_in = (string)$member->Time_In;
+
+			switch($ParticipationStatusID) {
+				case 1:
+					$member_status = "Interested";
+					break;
+				case 2:
+					$member_status = "Registered";
+					break;
+				case 3:
+					$member_status = "Attended";
+					break;
+				case 4:
+					$member_status = "Confirmed";
+					break;
+				case 5:
+					$member_status = "Cancelled";
+					break;
+				default:
+					$member_status = "Registered";
+			}
 
 			if($groupID != 0) {
 				if($eventParticipantID == "") {
@@ -406,7 +426,8 @@ class API {
 		$this->row .= '<li id="'.$eventParticipantID.'" '.$checkin_class.' '.$checkin_onclick.'><div>'.$displayName.'</div>';
 		$this->row .= '<div class="secondary-list-content">';
 			$this->row .= '<div class="role_type">Role: '.$groupRoleType.'</div>';
-			$this->row .= '<div class="participant_type">Status: <span id="'.$eventParticipantID.'_status">'.$roleTitle.'</span></div>';
+			// $this->row .= '<div class="participant_type">Status: <span id="'.$eventParticipantID.'_status">'.$roleTitle.'</span></div>';
+			$this->row .= '<div class="participant_type">Status: <span id="'.$eventParticipantID.'_status">'.$member_status.'</span></div>';
 			if($time_in_verified == true) {
 				$this->row .= '<div id="'.$eventParticipantID.'_time_in" class="role_type">Time In: '.$time_in_date.' '.$time_in_time.'</div>';
 			}
