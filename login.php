@@ -53,4 +53,4 @@ else { // failed
 $response = json_encode($response);
 print_r($response);
 
-?>
+/* no ending ?> on purpose */

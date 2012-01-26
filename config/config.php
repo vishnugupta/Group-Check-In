@@ -51,4 +51,4 @@
 
 		$this->securityRoleID = 0; // this will never be 0. Change it please.
 
-?>
+/* no ending ?> on purpose */

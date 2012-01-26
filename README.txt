@@ -6,7 +6,7 @@ This is not officially supported by Think Ministry, Inc. The intent of this soft
 *** Requirements/Recommendations ***
 
 1. Developed and tested against PHP version 5.3.6. (There has been at least one reported issue with PHP 5.2.17)
-2. Must be a current Think Ministry, Inc. Enterprise level customer with valid API credentials.
+2. Must be a current Think Ministry, Inc. Enterprise level customer with valid API credentials to benefit from this code.
 
 
 

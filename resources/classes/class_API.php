@@ -43,9 +43,9 @@ class API {
 	}
 
 	function cleanup($var) {
-		?><pre><?
+		?><pre><?php
 		var_dump($var);
-		?></pre><?
+		?></pre><?php
 	}
 
 	/*
@@ -469,4 +469,4 @@ class API {
 	}
 }
 
-?>
+/* no ending ?> on purpose */

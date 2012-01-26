@@ -1,11 +1,11 @@
-<?php 
+<?php
 	if( !isset( $_COOKIE["data"]["user"] ) || ( $_COOKIE["data"]["user"] == "") || (is_null($_COOKIE["data"]["user"]) ) ) {
 		header('Location: index.php');
 		exit();
 	}
 	else {
 	date_default_timezone_set('America/New_York');
-	
+
 	require_once('resources/classes/class_API.php');
 	require_once('resources/classes/class_user.php');
 ?>
@@ -25,19 +25,19 @@
 				$(':jqmData(url^=events_page)').live('pagebeforecreate', function(event) {
 					$(this).filter(':jqmData(url*=ui-page)').find(':jqmData(role=header)').prepend('<a href="#" data-rel="back" data-icon="arrow-l">Back</a>');
 				});
-				
+
 				// create logout button
 				$(':jqmData(url^=events_page)').live('pagebeforecreate', function(event) {
 					text = '<a id="logout_button" data-ajax="false" data-inline="true" href="logout.php" class="ui-btn-right" data-rel="logout">Log Out</a>';
 					$(this).find(':jqmData(role=header)').append(text);
 				});
-				
+
 				$(document).ready(function() {
 					$.mobile.hidePageLoadingMsg();
 				});
 		</script>
     </head>
-    <body>		
+    <body>
     	<div data-role="page" id="events_page" data-title="Available Events" data-theme='c'>
 			<div data-role="header" data-theme="b">
 				<h1>Available Events</h1>
@@ -45,11 +45,11 @@
 			<div data-role="content" data-theme="c">
 				<div id='Events' class="content-primary">
 					<?php
-						
+
 						$API = new API();
 						$event_list = $API->getEventData();
-						echo $event_list; 
-						
+						echo $event_list;
+
 					?>
 				</div>
 			</div>

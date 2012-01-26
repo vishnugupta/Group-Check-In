@@ -4,4 +4,5 @@
 	$user->end_session();
 	header('Location: index.php');
 	exit();
-?>
+
+/* no ending ?> on purpose */

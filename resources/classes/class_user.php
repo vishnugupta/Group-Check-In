@@ -11,7 +11,7 @@ class user {
 		$this->user_id = $user_id;
 		$this->display_name = $display_name;
 	}
-	
+
 	function start_session() {
 		// session_destroy(); // kills any session that might have carried over erroneously
 		$unique_id = md5(time());
@@ -19,12 +19,12 @@ class user {
 		session_start();
 		setcookie('logged_in',$unique_id, time()+(60*60*6) ); // 6 hours
 		setcookie('data[user]', $this->user_id);
-		setcookie('data[name]', $this->display_name);		
+		setcookie('data[name]', $this->display_name);
 	}
-	
+
 	function end_session() {
 		$_SESSION = array();
-		
+
 		setcookie('logged_in',"", time()-(60*60*6) ); // expire cookie
 		setcookie('data[user]', $this->user_id, time()-(60*60*6));
 		setcookie('data[name]', $this->display_name, time()-(60*60*6));
@@ -34,4 +34,5 @@ class user {
 		session_destroy();
 	}
 }
-?>
+
+/* no ending ?> on purpose */
