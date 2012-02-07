@@ -6,13 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
         <link rel="stylesheet" href="resources/css/mpcheckin.css" />
-		<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+		<script src="resources/js/jquery-1.6.4.min.js"></script>
 		<script src="resources/js/mpcheckin.js"></script>
-		<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+		<script src="resources/js/jquery.mobile-1.0.min.js"></script>
 		<script>
 			$(document).ready(function() {
 				hideLoadingScreen(); // disables the loading screen on page load
-				
+
 				// submits login form
 				$("#submit").click(function(){
 				   //$("[type='submit']").button('disable'); // disable submit button
@@ -28,38 +28,38 @@
 				        success: onSuccess,
 				        error: onError
 				    });
-			
+
 				    return false;
 				});
-				
+
 			});
-			
+
 			function onSuccess(data, status) {
 				//data = $.trim(data);
 				var loginsuccess = $.trim(data.success);
 				var message = $.trim(data.message);
-						
+
 				hideLoadingScreen(); // disable loading screen after loading the data response
-				
+
 				if( loginsuccess == 'true') {
 					//$.mobile.changePage("events.php", { reloadPage: true } ); // doesn't display back/logout buttons correctly
 					$.mobile.loadingMessage = "Retrieving Events";
 					$.mobile.showPageLoadingMsg();
 					window.location.href="events.php";
 				}
-				
+
 				else {
 					$("#error_message").text(message);
 					showLoginScreen();
 				}
 			}
-			
+
 			function onError(data, status) {
 				hideLoadingScreen();
 				$("#error_message").text("Your server connection failed. Please check your settings.");
 				showLoginScreen();
-			} 
-			
+			}
+
 			function showLoginScreen() {
 				$('#loginFormScreen').show();
 				$('[type="submit"]').button('enable');
