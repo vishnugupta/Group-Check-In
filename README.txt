@@ -19,13 +19,12 @@ Locate "PHP Settings", then click "Manage All Settings"
 Locate "short_open_tag" and change the value from "Off" to "On"
 
 
-
 *** Initial Configuration ***
 
 1. Place all files from the zip package into any directory you'd like
 	ex: http://www.example.com/gci/
 
-2. Execute the SQL in preinstall.sql in your MinistryPlatform database. This will do the following:
+2. Execute the SQL in install.sql in your MinistryPlatform database. This will do the following:
 	- Create 3 stored procedures that Group Check-In requires
 	- Create a security role for this application to validate against.
 
