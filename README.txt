@@ -38,3 +38,4 @@ Locate "short_open_tag" and change the value from "Off" to "On"
 5. Visit the home page in any modern (HTML5+) browser, ideally an iOS device. However, this app should load and function correctly in the current versions of Firefox, Chrome, and Safari if desired.
 
 6. That's it! You're all set. Test the log-in process to ensure your connection works.
+7.
